@@ -21,8 +21,8 @@ def do(opt):
         return search()
     elif opt=="read" or opt=='list':
         return read()
-    elif isEmpty(opt):
-        return False
+    elif opt=="new":
+        return new()
     else:
         print(" 未知命令'",opt,"' 请输入'?'或'help'查看帮助界面   Unknow Command! Type 'help'/'?' for more infomation.")
         return False
@@ -34,6 +34,8 @@ def hlp():
     print(" test/exam       检测学习成果")
     print(" search/s        查询")
     print(" read/list       查看所有单词")
+    print(" reboot/clear    重启本程序")
+    print(" new             新开窗口")
     print(" exit            退出本程序")
     return True
 
@@ -78,9 +80,10 @@ def test():
         for i in range(1,num+1):
             rand = random.randint(0, cando-1)
             yourans=''
-            while isEmpty(yourans):
-                yourans=input(' ('+str(i)+'/'+str(num)+') '+english[rand]+' ')
-            if yourans==chinese[rand]:
+            yourans=input(' ('+('0'*(len(str(num))-len(str(i)))+str(i)+'/'+str(num)+')')+english[rand]+' ')
+            if isEmpty(yourans):
+                print('  ',english[rand],' ',chinese[rand])
+            elif yourans==chinese[rand]:
                 print("  答对. True.")
             else:
                 print("  答错. False. 答案ans: ",chinese[rand])
@@ -89,35 +92,35 @@ def test():
         for i in range(1,num+1):
             rand = random.randint(0, cando-1)
             yourans=''
-            while isEmpty(yourans):
-                yourans=input('('+str(i)+'/'+str(num)+') '+chinese[rand]+' ')
-            if yourans==english[rand]:
-                print(" 答对. True.")
+            yourans=input(' ('+('0'*(len(str(num))-len(str(i)))+str(i)+'/'+str(num)+')')+chinese[rand]+' ')
+            if isEmpty(yourans):
+                print('  ',english[rand],' ',chinese[rand])
+            elif yourans==english[rand]:
+                print("  答对. True.")
             else:
-                print(" 答错. False. 答案ans: ",english[rand])
+                print("  答错. False. 答案ans: ",english[rand])
         return True
     elif t=='r':
         for i in range(1,num+1):
             randWordNum = random.randint(0, cando-1)
             yourans=''
             randType = random.randint(0,1)
-            
             if randType==0: #ec
-                while isEmpty(yourans):
-                    yourans=input('('+str(i)+'/'+str(num)+') '+english[randWordNum]+' ')
-                if yourans==chinese[randWordNum]:
-                    print(" 答对. True.")
+                yourans=input(' ('+('0'*(len(str(num))-len(str(i)))+str(i)+'/'+str(num)+')')+english[randWordNum]+' ')
+                if isEmpty(yourans):
+                    print('  ',english[randWordNum],' ',chinese[randWordNum])
+                elif yourans==chinese[randWordNum]:
+                    print("  答对. True.")
                 else:
-                    print(" 答错. False. 答案ans: ",chinese[randWordNum])
+                    print("  答错. False. 答案ans: ",chinese[randWordNum])
             else: #ce
-                
-                while isEmpty(yourans):
-                    yourans=input('('+str(i)+'/'+str(num)+') '+chinese[randWordNum]+' ')
-                if yourans==english[randWordNum]:
-                    print(" 答对. True.")
+                yourans=input(' ('+('0'*(len(str(num))-len(str(i)))+str(i)+'/'+str(num)+')')+chinese[randWordNum]+' ')
+                if isEmpty(yourans):
+                    print('  ',english[randWordNum],' ',chinese[randWordNum])
+                elif yourans==english[randWordNum]:
+                    print("  答对. True.")
                 else:
-                    print(" 答错. False. 答案ans: ",english[randWordNum])
-                
+                    print("  答错. False. 答案ans: ",english[randWordNum])
         return True
     else:
         return False
@@ -171,13 +174,20 @@ def read():
         print(' ('+('0'*(len(str(cando))-len(str(i+1)))+str(i+1)+'/'+str(cando)+')'),english[i],' '*(15-len(english[i])),chinese[i])
     return True
 
-
+def new():
+    import os
+    os.system("start NianHui.py")
+    return True
 
 while True:
     i = input("NianHui> ")
     while isEmpty(i):
         i=input("      ~>")
     if i=="exit":
+        print("Bye~")
+        break
+    elif i=="clear" or i=="reboot":
+        new()
         print("Bye~")
         break
     if do(i):
